@@ -101,31 +101,43 @@ public class RDBMSIterator implements RecordIterator<Object[]> {
     private Object[] extractRecord(ResultSet rs) throws SQLException {
         List<Object> result = new ArrayList<>();
         for (Attribute attribute : this.attributes) {
-            switch (attribute.getType()) {
-                case BOOL:
-                    result.add(rs.getBoolean(attribute.getName()));
-                    break;
-                case DOUBLE:
-                    result.add(rs.getDouble(attribute.getName()));
-                    break;
-                case FLOAT:
-                    result.add(rs.getFloat(attribute.getName()));
-                    break;
-                case INT:
-                    result.add(rs.getInt(attribute.getName()));
-                    break;
-                case LONG:
-                    result.add(rs.getLong(attribute.getName()));
-                    break;
-                case OBJECT:
-                    result.add(rs.getObject(attribute.getName()));
-                    break;
-                case STRING:
-                    result.add(rs.getString(attribute.getName()));
-                    break;
-            }
+        	String name = attribute.getName();
+        	try {
+        		extractNameRecord(result, rs, attribute, name);
+        		continue;
+        	} catch (Exception e) {
+        		// ignore
+        	}
+        	name = name.replace("\"", "");
+    		extractNameRecord(result, rs, attribute, name);
         }
         return result.toArray();
+    }
+    
+    private void extractNameRecord(List<Object> result, ResultSet rs, Attribute attribute, String name) throws SQLException {
+	    switch (attribute.getType()) {
+	        case BOOL:
+	            result.add(rs.getBoolean(name));
+	            break;
+	        case DOUBLE:
+	            result.add(rs.getDouble(name));
+	            break;
+	        case FLOAT:
+	            result.add(rs.getFloat(name));
+	            break;
+	        case INT:
+	            result.add(rs.getInt(name));
+	            break;
+	        case LONG:
+	            result.add(rs.getLong(name));
+	            break;
+	        case OBJECT:
+	            result.add(rs.getObject(name));
+	            break;
+	        case STRING:
+	            result.add(rs.getString(name));
+	            break;
+	    }
     }
 
     @Override
