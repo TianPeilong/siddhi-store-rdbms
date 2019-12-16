@@ -186,7 +186,7 @@
                     <skip>${skip.surefire.test}</skip>
                 </configuration>
             </plugin>
-            <plugin>
+<!--             <plugin>
                 <groupId>io.siddhi</groupId>
                 <artifactId>siddhi-doc-gen</artifactId>
                 <version>${siddhi.version}</version>
@@ -198,7 +198,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 
